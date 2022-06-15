@@ -22,6 +22,7 @@ function App() {
   const[timeLeft, setTimeLeft] = useState(1500)
   const[timerState, setTimerState] = useState("Session")
   const[isRunning, setIsRunning] = useState(false)
+  const[isFirstTime, setIsFirstTime] = useState(true)
   const[timerInterval, setTimerInterval] = useState("")
   const[style, setStyle] = useState({color: ""})
 
@@ -53,7 +54,7 @@ function App() {
     // startTimer()
     setTimeLeft(timerState === "Session" ? sessionLength * 60 : breakLength * 60)
     setStyle({ color: "" })
-    if(!isRunning){
+    if(!isRunning && !isFirstTime){
       startTimer()
     }
   },[timerState])
@@ -77,6 +78,7 @@ function App() {
   const startTimer = () => {
     setIsRunning(prevVal => !prevVal);  
     if(!isRunning){
+      setIsFirstTime(false)
       setTimerInterval(setInterval(()=>{
         setTimeLeft(prevTimeLeft => prevTimeLeft - 1)
       },1000))
@@ -87,7 +89,7 @@ function App() {
   };
 
   const updateTimer = () => {
-    if (timeLeft < 58) {
+    if (timeLeft < 0) {
       clearInterval(timerInterval);
       setIsRunning(false)
       changeTimerMode();
@@ -98,7 +100,7 @@ function App() {
         setStyle({ color: "red" });
       }
 
-      if (timeLeft <= 58) {
+      if (timeLeft <= 0) {
         audioRef.current.play();
       }
     } else {
