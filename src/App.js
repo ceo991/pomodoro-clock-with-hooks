@@ -42,15 +42,21 @@ function App() {
   useEffect(()=>{
     
     // setTimer((prevTimer)=>({...prevTimer, timeLeft: prevTimer.breakLength * 60 }));
+
     updateTimer()
   },[timeLeft])
 
-  // useEffect(()=>{
+  useEffect(()=>{
     
-  //   // setTimer((prevTimer)=>({...prevTimer, timeLeft: prevTimer.breakLength * 60 }));
-  //   // if(timerState ==="Session") return
-  //   // startTimer()
-  // },[timerStateChanged])
+    // setTimer((prevTimer)=>({...prevTimer, timeLeft: prevTimer.breakLength * 60 }));
+    // if(timerState ==="Session") return
+    // startTimer()
+    setTimeLeft(timerState === "Session" ? sessionLength * 60 : breakLength * 60)
+    setStyle({ color: "" })
+    if(!isRunning){
+      startTimer()
+    }
+  },[timerState])
 
   const resetTimer = () => {
     clearInterval(timerInterval);
@@ -83,7 +89,7 @@ function App() {
   const updateTimer = () => {
     if (timeLeft < 58) {
       clearInterval(timerInterval);
-      // setIsRunning(false)
+      setIsRunning(false)
       changeTimerMode();
     }
 
@@ -114,10 +120,10 @@ function App() {
     //   } 
     // );
     setTimerState(timerState === "Break" ? "Session" : "Break")
-    setTimeLeft(timerState === "Session" ? sessionLength * 60 : breakLength * 60)
+
     // setIsRunning(true)
-    setStyle({ color: "" })
-    startTimer()
+    
+    
   };
 
   const incrementSession = () => {
