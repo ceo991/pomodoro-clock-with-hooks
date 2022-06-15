@@ -53,6 +53,7 @@ function App() {
     setTimeLeft(1500)
     setTimerState("Session")
     setIsRunning(false)
+    setIsFirstTime(true)
     setTimerInterval("")
     setStyle({color: ""})
 
